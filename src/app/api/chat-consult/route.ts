@@ -27,12 +27,14 @@ import { StringOutputParser } from "@langchain/core/output_parsers";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    const model = (body.model || "gpt-3.5-turbo-1106") as string;
     const messages = body.messages as ValueChat[];
 
     //Chat Models
     const chat = new ChatOpenAI({
       // modelName: "gpt-3.5-turbo-1106",
-      modelName: "gpt-4o",
+      // modelName: "gpt-4o",
+      modelName: model,
       temperature: 0.4,
     });
 

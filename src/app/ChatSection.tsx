@@ -1,38 +1,48 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
-import Chat, { UnitType, ValueChat, ValueForm } from '@/app/Chat';
+import React, { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import Chat, { UnitType, ValueChat, ValueForm } from "@/app/Chat";
 
-const ChatSection = () => {
+type ChatSectionProps = {
+  modelName: string;
+};
+
+const ChatSection = (props: ChatSectionProps) => {
+  const { modelName = "gpt-3.5-turbo-1106" } = props;
   const mutateGPT = useMutation({
     mutationFn: ({ messages }: { messages: any }) =>
-      axios.post('/api/chat-consult', {
-        messages: messages,
-      }, {
-        timeout: 60 * 1000,
-      }),
+      axios.post(
+        "/api/chat-consult",
+        {
+          messages: messages,
+          model: modelName,
+        },
+        {
+          timeout: 60 * 1000,
+        }
+      ),
   });
 
   const [chats, setChats] = useState<ValueChat[]>([]);
 
   const onSubmit = async (data: ValueForm) => {
-    if (data.message === '') return;
+    if (data.message === "") return;
     const humanMessage = {
       content: data.message,
       role: "human" as UnitType,
     };
 
-    setChats((prev) =>
-      [...prev,
-        humanMessage,
+    setChats((prev) => [
+      ...prev,
+      humanMessage,
       {
-        content: '',
+        content: "",
         role: "ai" as UnitType,
         isLoading: true,
-      }]
-    );
+      },
+    ]);
 
     mutateGPT.mutate(
       { messages: [...chats, humanMessage] },
@@ -40,21 +50,27 @@ const ChatSection = () => {
         onSuccess: async ({ data }) => {
           setChats((prev) => {
             const items = prev.slice(0, prev.length - 1);
-            return [...items, {
-              content: data.content,
-              role: "ai" as UnitType,
-              isLoading: false,
-            }]
+            return [
+              ...items,
+              {
+                content: data.content,
+                role: "ai" as UnitType,
+                isLoading: false,
+              },
+            ];
           });
         },
         onError: (error) => {
           setChats((prev) => {
             const items = prev.slice(0, prev.length - 1);
-            return [...items, {
-              content: 'Something went wrong :(',
-              role: "ai" as UnitType,
-              isLoading: false,
-            }]
+            return [
+              ...items,
+              {
+                content: "Something went wrong :(",
+                role: "ai" as UnitType,
+                isLoading: false,
+              },
+            ];
           });
         },
       }
@@ -63,9 +79,13 @@ const ChatSection = () => {
 
   return (
     <>
-      <Chat chats={chats} onSubmit={onSubmit} disabledType={mutateGPT.isPending}/>
-    </>)
-
+      <Chat
+        chats={chats}
+        onSubmit={onSubmit}
+        disabledType={mutateGPT.isPending}
+      />
+    </>
+  );
 };
 
 export default ChatSection;

@@ -31,7 +31,8 @@ export async function POST(request: NextRequest) {
 
     //Chat Models
     const chat = new ChatOpenAI({
-      modelName: "gpt-3.5-turbo-1106",
+      // modelName: "gpt-3.5-turbo-1106",
+      modelName: "gpt-4o",
       temperature: 0.4,
     });
 
@@ -58,7 +59,7 @@ export async function POST(request: NextRequest) {
     const questionAnsweringPrompt = ChatPromptTemplate.fromMessages([
       [
         "system",
-        "You are an assistant for consultant. Use the following pieces of retrieved context to answer the question. Context:{context}. ",
+        "You are an assistant for consultant. Use the following pieces of retrieved context to answer the question. Please respond using Markdown format. Context:{context}. ",
       ],
       new MessagesPlaceholder("messages"),
     ]);

@@ -56,9 +56,9 @@ const Chat = (props: ChatSectionProps) => {
     <>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmitCustom}>
-          <div className="flex flex-col gap-4 p-4 min-h-[425px] justify-between">
+          <div className="flex flex-col gap-4 p-4 justify-between">
             {chats.length > 0 ? (
-              <Scrollbar className="h-80 overflow-y-auto pr-2">
+              <Scrollbar className="h-96 overflow-y-auto pr-2">
                 <div className="flex flex-col gap-2">
                   {chats.map((chat, index) => (
                     <React.Fragment key={index}>

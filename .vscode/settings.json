@@ -1,0 +1,9 @@
+{
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "i18n-ally.localesPaths": [
+        "messages"
+    ],
+    "i18n-ally.keystyle": "nested"
+}

@@ -90,6 +90,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       content: responseMessage?.answer,
+      data: responseMessage,
     });
   } catch (e: any) {
     console.log("err", e);

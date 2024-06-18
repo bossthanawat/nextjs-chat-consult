@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import { Controller, useForm, FormProvider } from 'react-hook-form';
-import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
-import ReactMarkdown from 'react-markdown';
+import { Controller, useForm, FormProvider } from "react-hook-form";
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import ReactMarkdown from "react-markdown";
 
-import BouncingDotsLoader from '../components/BouncingDotsLoader';
-import Scrollbar from '../components/Scrollbar';
-import { Input } from '../components/ui/input';
-import { Badge } from '../components/ui/badge';
+import BouncingDotsLoader from "../components/BouncingDotsLoader";
+import Scrollbar from "../components/Scrollbar";
+import { Input } from "../components/ui/input";
+import { Badge } from "../components/ui/badge";
 
-export type UnitType = "human" | "ai"
+export type UnitType = "human" | "ai";
 
 export type ValueForm = {
   message: string;
 };
 
 export type ValueChat = {
-  role: UnitType
+  role: UnitType;
   content: string;
   isLoading?: boolean;
 };
@@ -27,7 +27,7 @@ type ChatSectionProps = {
   chats: ValueChat[];
   disabledType?: boolean;
   listExamFirstMessage?: string[];
-}
+};
 
 const Chat = (props: ChatSectionProps) => {
   const { chats, onSubmit, listExamFirstMessage } = props;
@@ -35,22 +35,30 @@ const Chat = (props: ChatSectionProps) => {
 
   const methods = useForm<ValueForm>({
     defaultValues: {
-      message: '',
+      message: "",
     },
-
   });
-  const { control, handleSubmit, reset, setValue, formState: { isDirty } } = methods;
+  const {
+    control,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { isDirty },
+  } = methods;
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: 'smooth' });
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chats]);
 
   const handleSubmitCustom = handleSubmit((data: ValueForm) => {
     onSubmit(data);
-    reset({}, {
-      keepDirty: true
-    });
-  })
+    reset(
+      {},
+      {
+        keepDirty: true,
+      }
+    );
+  });
 
   return (
     <>
@@ -62,34 +70,40 @@ const Chat = (props: ChatSectionProps) => {
                 <div className="flex flex-col gap-2">
                   {chats.map((chat, index) => (
                     <React.Fragment key={index}>
-                      {chat?.role === "human" && <div className="flex gap-2 items-start">
-                        <Image
-                          src={'/assets/images/notion-avatar-1.png'}
-                          alt="user"
-                          width={50}
-                          height={50}
-                        />
-                        <div className="bg-gray-100 p-3 rounded-r-xl rounded-bl-xl">
-                          <p className="text-sm">{chat.content}</p>
+                      {chat?.role === "human" && (
+                        <div className="flex gap-2 items-start">
+                          <Image
+                            src={"/assets/images/notion-avatar-1.png"}
+                            alt="user"
+                            width={50}
+                            height={50}
+                          />
+                          <div className="bg-gray-100 p-3 rounded-r-xl rounded-bl-xl">
+                            <p className="text-sm">{chat.content}</p>
+                          </div>
                         </div>
-                      </div>}
-                      {chat?.role === "ai" && <div className="flex gap-2 items-start">
-                        <Image
-                          src={'/assets/images/notion-avatar-bot.png'}
-                          alt="bot"
-                          width={50}
-                          height={50}
-                        />
-                        {chat?.isLoading ? (
-                          <div className='self-center'>
-                            <BouncingDotsLoader />
-                          </div>
-                        ) : (
-                          <div className="bg-orange-100 p-3 rounded-r-xl rounded-bl-xl">
-                            <div className="text-sm"><ReactMarkdown>{chat?.content}</ReactMarkdown></div>
-                          </div>
-                        )}
-                      </div>}
+                      )}
+                      {chat?.role === "ai" && (
+                        <div className="flex gap-2 items-start">
+                          <Image
+                            src={"/assets/images/notion-avatar-bot.png"}
+                            alt="bot"
+                            width={50}
+                            height={50}
+                          />
+                          {chat?.isLoading ? (
+                            <div className="self-center">
+                              <BouncingDotsLoader />
+                            </div>
+                          ) : (
+                            <div className="bg-orange-100 p-3 rounded-r-xl rounded-bl-xl">
+                              <div className="text-sm">
+                                <ReactMarkdown>{chat?.content}</ReactMarkdown>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </React.Fragment>
                   ))}
                   <div ref={endRef}></div>
@@ -99,7 +113,7 @@ const Chat = (props: ChatSectionProps) => {
               <>
                 <div className="flex gap-2 items-start">
                   <Image
-                    src={'/assets/images/notion-avatar-bot.png'}
+                    src={"/assets/images/notion-avatar-bot.png"}
                     alt="user"
                     width={50}
                     height={50}
@@ -113,17 +127,24 @@ const Chat = (props: ChatSectionProps) => {
               </>
             )}
             <div>
-              {!isDirty && listExamFirstMessage && <div className='flex gap-2 mb-2'>
-                {listExamFirstMessage.map((item, index) => (<Badge
-                  key={index}
-                  variant="secondary"
-                  className='cursor-pointer'
-                  onClick={() => setValue("message", item, { shouldDirty: true })}>
-                  {item}
-                </Badge>))}
-              </div>}
+              {!isDirty && listExamFirstMessage && (
+                <div className="flex gap-2 mb-2">
+                  {listExamFirstMessage.map((item, index) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="cursor-pointer"
+                      onClick={() =>
+                        setValue("message", item, { shouldDirty: true })
+                      }
+                    >
+                      {item}
+                    </Badge>
+                  ))}
+                </div>
+              )}
               <Controller
-                name={'message'}
+                name={"message"}
                 control={control}
                 render={({ field }) => (
                   <div className="relative justify-self-end">

@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     });
 
     const splits = await textSplitter.splitDocuments(docs);
-    const loaderDocsPath = path.join(process.cwd(), "src/app/api/loader-docs");
+    const loaderDocsPath = path.join(process.cwd(), "src/app/api/memory/loader-docs");
     const filePath = path.join(loaderDocsPath, "allSplits.json");
     await writeFile(
       filePath,

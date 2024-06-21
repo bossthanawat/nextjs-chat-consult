@@ -21,7 +21,7 @@ const ChatSection = (props: ChatSectionProps) => {
   const mutateGPT = useMutation({
     mutationFn: ({ messages }: { messages: any }) =>
       axios.post(
-        "/api/chat-consult",
+        "/api/postgres/chat-consult",
         {
           messages: messages,
           model: model,
